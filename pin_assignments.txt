@@ -1,0 +1,18 @@
+# Pin Assignments
+
+R	9
+G	10
+B	11	
+
+EnA	6		Black
+N1	A0 (14)	White
+N2	A1 (15)	Grey
+N3	A2 (16)	Purple
+N4	A3 (17)	Blue
+EnB	9		Green
+
+L	3	
+M	4
+R	5
+
+
