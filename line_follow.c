@@ -81,23 +81,36 @@ void loop() {
 
 void straight() {                 // Function to drive straight
   
-  analogWrite(ENA,SPEED_STRAIGHT);  // Set motor speed
-  digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive forward
+  analogWrite(ENA,SPEED_STRAIGHT);  // Set motor A speed
+  digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive left motor forward
   digitalWrite(N2,LOW);
   
-  analogWrite(ENB,SPEED_STRAIGHT);
-  digitalWrite(N3,HIGH);
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,HIGH);            // N3 HIGH, N4 LOW = drive right motor forward
   digitalWrite(N4,LOW);
-
+  
 }
 
 void right() {                    // Function to turn right
   
+  analogWrite(ENA,SPEED_TURN);      // Set motor A speed
+  digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive left motor forward
+  digitalWrite(N2,LOW);
+  
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,LOW);             // N3 LOW, N4 HIGH = drive right motor back
+  digitalWrite(N4,HIGH);
   
 }
 
 void left() {                     // Function to turn left  
   
-   
+  analogWrite(ENA,SPEED_TURN);      // Set motor A speed
+  digitalWrite(N1,LOW);            // N1 LOW, N2 HIGH = drive left motor back
+  digitalWrite(N2,HIGH);
+  
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,HIGH);             // N3 HIGH, N4 LOW = drive right motor forward
+  digitalWrite(N4,LOW);
   
 }
