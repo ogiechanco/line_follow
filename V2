@@ -1,0 +1,130 @@
+// Code developed by RAF Leeming Hackspace
+// Line Following Robot for 90SU Cross Brief Hackathon
+
+// Define pin connections
+
+// LED
+int LED_RED = 9;      // PWM capable pin
+int LED_GREEN  = 10;  // PWM capable pin
+int LED_BLUE = 11;    // PWM capable pin
+
+// Motor 1 - EN sets speed, N pins set direction - N1 = N2 > brake, N1 != N2 > drive
+int ENA = 6;          // PWM capable pin
+int N1 = 14;          // Pin 14 = A0, 15 = A1 etc
+int N2 = 15;
+
+// Motor 2
+int ENB = 8;          // PWM capable pin
+int N3 = 16;
+int N4 = 17;
+
+// Sensors
+int LEFT = 3;
+int MID = 4;
+int RIGHT = 5;
+
+// Speed Constants
+
+int SPEED_STRAIGHT = 150;
+int SPEED_TURN = 100;
+
+// Global Variables
+
+int leftStatus;
+int midStatus;
+int rightStatus;
+
+// the setup function runs once when you press reset or power the board
+void setup() {
+  
+  pinMode(LED_RED,OUTPUT);     //Defines the pin as an output
+  pinMode(LED_GREEN,OUTPUT);
+  pinMode(LED_BLUE,OUTPUT);
+  
+  pinMode(ENA,OUTPUT);
+  pinMode(N1,OUTPUT);
+  pinMode(N2,OUTPUT);
+  
+  pinMode(ENB,OUTPUT);
+  pinMode(N3,OUTPUT);
+  pinMode(N4,OUTPUT);
+  
+  pinMode(LEFT,INPUT);
+  pinMode(MID,INPUT);
+  pinMode(RIGHT,INPUT);
+
+  analogWrite(LED_RED, 255);  //defines the value sent to the Red Green or Blue pins between 0-255
+  analogWrite(LED_GREEN,0);
+  analogWrite(LED_BLUE, 0);
+  
+  digitalWrite(MID, LOW);
+  digitalWrite(LEFT, LOW);
+  digitalWrite(RIGHT, LOW);
+  
+  Serial.begin(9600);
+  
+  straight();
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  
+
+  
+  leftStatus = digitalRead(LEFT);   // Read status of sensor into variable - HIGH = BLACK
+  midStatus = digitalRead(MID);
+  rightStatus = digitalRead(RIGHT);
+  
+  
+  delay(50);    //  50ms delay to ensure smooth motion
+  
+   if (midStatus == LOW) {        // Middle sensor is on black AND
+    if (rightStatus == HIGH) {      //  Left sensor is on white THEN  
+      straight();                   //    We're on the left edge of the black line so go straight
+    }                             //  Otherwise
+    else {                        //  Left sensor is on black
+      left();                     //    We've moved over the line so need to turn left to correct
+    }
+  }                               // Otherwise
+  else {                          // Middle sensor is on white THEN
+    right();                      //  We've moved off the line so need to turn right to correct
+  }
+  
+}
+
+void straight() {                 // Function to drive straight
+  
+  analogWrite(ENA,SPEED_STRAIGHT);  // Set motor A speed
+  digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive left motor forward
+  digitalWrite(N2,LOW);
+  
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,HIGH);            // N3 HIGH, N4 LOW = drive right motor forward
+  digitalWrite(N4,LOW);
+  Serial.println("Straight");
+}
+
+void right() {                    // Function to turn right
+  
+  analogWrite(ENA,SPEED_TURN);      // Set motor A speed
+  digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive left motor forward
+  digitalWrite(N2,LOW);
+  
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,LOW);             // N3 LOW, N4 HIGH = drive right motor back
+  digitalWrite(N4,HIGH);
+  Serial.println("Right");
+}
+
+void left() {                     // Function to turn left  
+  
+  analogWrite(ENA,SPEED_TURN);      // Set motor A speed
+  digitalWrite(N1,LOW);            // N1 LOW, N2 HIGH = drive left motor back
+  digitalWrite(N2,HIGH);
+  
+  analogWrite(ENB,SPEED_STRAIGHT);  // Set motor B speed
+  digitalWrite(N3,HIGH);             // N3 HIGH, N4 LOW = drive right motor forward
+  digitalWrite(N4,LOW);
+  Serial.println("Left");
+  
+}
