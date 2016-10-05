@@ -67,7 +67,7 @@ void loop() {
   
   if (midStatus == HIGH) {        // Middle sensor is on black AND
     if (leftStatus == LOW) {      //  Left sensor is on white THEN
-      straight;                   //    We're on the left edge of the black line so go straight
+      straight();                   //    We're on the left edge of the black line so go straight
     }                             //  Otherwise
     else {                        //  Left sensor is on black
       left();                     //    We've moved over the line so need to turn left to correct
