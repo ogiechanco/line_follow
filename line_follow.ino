@@ -75,6 +75,34 @@ void loop() {
     right();                      //  We've moved off the line so need to turn right to correct
   }
   
+  R++;
+  
+  if(R > 255){
+    
+    R = 255;
+    G++;
+    
+    if(G > 255){
+      
+      G = 255;
+      B++;
+      
+      if (B > 255){
+        
+        R = 0;
+        G = 0;
+        B = 0;
+        
+      }
+    }
+  }
+ 
+  analogWrite(LED_RED, R);
+  analogWrite(LED_GREEN, G);
+  analogWrite(LED_BLUE, B);
+  
+  delay(10);
+  
 }
 
 void straight() {                 // Function to drive straight
