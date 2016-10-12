@@ -19,9 +19,9 @@ int N3 = 12;
 int N4 = 13;
 
 // Sensors
-int LEFT = 3;           // Pin 14 = A0, 15 = A1 etc
-int MID = 4;
-int RIGHT = 5;
+int LEFT = 14;           // Pin 14 = A0, 15 = A1 etc
+int MID = 15;
+int RIGHT = 16;
 
 // Speed Constants
 
@@ -95,7 +95,7 @@ void right() {                    // Function to turn right
   digitalWrite(N1,HIGH);            // N1 HIGH, N2 LOW = drive right motor back
   digitalWrite(N2,LOW);
   
-  analogWrite(ENB,SPEED_STRAIGHT);  // Set left motor speed
+  analogWrite(ENB,SPEED_TURN);  // Set left motor speed
   digitalWrite(N3,LOW);             // N3 LOW, N4 HIGH = drive left motor forward
   digitalWrite(N4,HIGH);
   
@@ -107,7 +107,7 @@ void left() {                     // Function to turn left
   digitalWrite(N1,LOW);            // N1 LOW, N2 HIGH = drive right motor forward
   digitalWrite(N2,HIGH);
   
-  analogWrite(ENB,SPEED_STRAIGHT);  // Set left motor speed
+  analogWrite(ENB,SPEED_TURN);  // Set left motor speed
   digitalWrite(N3,HIGH);             // N3 HIGH, N4 LOW = drive left motor back
   digitalWrite(N4,LOW);
   
