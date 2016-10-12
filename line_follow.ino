@@ -25,8 +25,8 @@ int RIGHT = 5;
 
 // Speed Constants
 
-int SPEED_STRAIGHT = 200;
-int SPEED_TURN = 100;
+int SPEED_STRAIGHT = 100;
+int SPEED_TURN = 150;
 
 // Global Variables
 
@@ -62,8 +62,6 @@ void loop() {
   leftStatus = digitalRead(LEFT);   // Read status of sensor into variable - HIGH = BLACK
   midStatus = digitalRead(MID);
   rightStatus = digitalRead(RIGHT);
-  
-  delay(50);    //  50ms delay to ensure smooth motion
   
   if (midStatus == HIGH) {        // Middle sensor is on black AND
     if (leftStatus == LOW) {      //  Left sensor is on white THEN
