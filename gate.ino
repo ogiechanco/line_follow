@@ -33,8 +33,6 @@ void loop(){
   
   int sensorBool = 0;
   
-  timeCount++;
-  
   if (sensorValue < 100){
     
     sensorBool = 0;
@@ -83,6 +81,7 @@ void loop(){
     
   }
   
+  printScreen();
   
   lastBool = sensorBool;
   
@@ -108,7 +107,7 @@ void printScreen(){
     lapString = lapString + ":";
     lapString = lapString + lapSec[n];
     lapString = lapString + ".";
-    lapString = lapString + lapTen[n]'
+    lapString = lapString + lapTen[n];
     
     Serial.println(lapString);
       
