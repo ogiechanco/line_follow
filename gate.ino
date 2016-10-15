@@ -3,27 +3,35 @@
 
 int laser = 3;
 int sensor = 19;
+int triggerPin = 7;
+
 int lapCount = 0;
 int sensorOff = 0;
 int sensorOffTime = 0;
+int triggerOff = 0;
+int triggerOffTime = 0;
 
 int lastBool = 0;
-int lastTime = 0;
+int lastTrigger = 0;
 
 int lapMin[4];
 int lapSec[4];
 int lapTen[4];
+float splitSpeed[4] = {0, 0, 0, 0};
+
+
+int splitDist = 1;
 
 void setup(){
   
  pinMode(laser, OUTPUT); 
  pinMode(sensor, INPUT);
+ pinMode(triggerPin, INPUT);
  
- Serial.begin(9600);
+ Serial.begin(115200);
  
  digitalWrite(laser, HIGH);
   
- lastTime = millis();
   
 }
 
@@ -32,6 +40,8 @@ void loop(){
   int sensorValue = analogRead(sensor);
   
   int sensorBool = 0;
+  
+  int triggerValue = digitalRead(triggerPin);
   
   if (sensorValue < 100){
     
@@ -55,7 +65,18 @@ void loop(){
       sensorOffTime = 0;
       
     }
-  }  
+  }
+  
+  if (triggerValue == 1 && triggerOff == 0){
+    if (lastTrigger == 0){
+   
+     trigger();
+           
+      triggerOff = 1;
+      triggerOffTime = 0;
+      
+    }
+  }
   
   sensorOffTime++;
   
@@ -64,6 +85,15 @@ void loop(){
     sensorOff = 0;
     
   }
+  
+    triggerOffTime++;
+  
+  if(triggerOffTime > 50){
+    
+    triggerOff = 0;
+    
+  }
+  
   
   
   lapTen[lapCount]++;
@@ -75,43 +105,67 @@ void loop(){
     
     if(lapSec[lapCount] == 60){
       
-      lapSec[lapCount] == 0;
+      lapSec[lapCount] = 0;
       lapMin[lapCount]++;
     }
     
   }
   
+  lastBool = sensorBool;
+  lastTrigger = triggerValue;
+  
+  delay(100);
+  
   printScreen();
   
-  lastBool = sensorBool;
   
-  while((lastTime + 100) < millis()){
-    delay(5);
-  }
-  
-  lastTime = millis();
 }
 
 void printScreen(){
   
-  Serial.write(12);
+  Serial.write(27); 
+  Serial.print("[2J"); // clear screen 
+  Serial.write(27); // ESC 
+  Serial.print("[H"); // cursor to home 
   
-  String lapString = "";
+  String lapString = "Lap ";
   
   for(int n = 1; n < 4; n++){
    
     
-    lapString = "Lap " + n;
+    lapString = lapString + n;
     lapString = lapString + ": ";
     lapString = lapString + lapMin[n];
-    lapString = lapString + ":";
+    if(lapSec[n] < 10){
+      lapString = lapString + ":0";
+    }
+    else{
+      lapString = lapString + ":";
+    }
     lapString = lapString + lapSec[n];
     lapString = lapString + ".";
     lapString = lapString + lapTen[n];
+    lapString = lapString + "   Top Speed: ";
     
-    Serial.println(lapString);
+    
+    Serial.print(lapString);
+    Serial.print(splitSpeed[n]);
+    Serial.println("m/s");
+    
+    lapString = "Lap ";
+    
       
   }
   
+  
+}
+
+void trigger(){
+ 
+ float tenths = (float) lapTen[lapCount];
+ float splitTime = lapSec[lapCount] + tenths/10;
+ 
+ splitSpeed[lapCount] = splitDist / splitTime;
+ 
   
 }
