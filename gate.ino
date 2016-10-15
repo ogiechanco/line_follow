@@ -8,6 +8,7 @@ int sensorOff = 0;
 int sensorOffTime = 0;
 
 int lastBool = 0;
+int lastTime = 0;
 
 int lapMin[4];
 int lapSec[4];
@@ -21,6 +22,8 @@ void setup(){
  Serial.begin(9600);
  
  digitalWrite(laser, HIGH);
+  
+ lastTime = millis();
   
 }
 
@@ -81,16 +84,35 @@ void loop(){
   }
   
   
-  delay(100);
-  
-  Serial.println();
-  Serial.print(lapCount);
-  Serial.print("  ");
-  Serial.print(lapMin[lapCount]);
-  Serial.print(":");
-  Serial.print(lapSec[lapCount]);
-  Serial.print(".");
-  Serial.print(lapTen[lapCount]);
-  
   lastBool = sensorBool;
+  
+  while((lastTime + 100) < millis()){
+    delay(5);
+  }
+  
+  lastTime = millis();
+}
+
+void printScreen(){
+  
+  Serial.write(12);
+  
+  String lapString = "";
+  
+  for(int n = 1; n < 4; n++){
+   
+    
+    lapString = "Lap " + n;
+    lapString = lapString + ": ";
+    lapString = lapString + lapMin[n];
+    lapString = lapString + ":";
+    lapString = lapString + lapSec[n];
+    lapString = lapString + ".";
+    lapString = lapString + lapTen[n]'
+    
+    Serial.println(lapString);
+      
+  }
+  
+  
 }
