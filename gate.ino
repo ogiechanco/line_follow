@@ -38,36 +38,37 @@ void setup(){
 void loop(){
   
   int sensorValue = analogRead(sensor);
-  
   int sensorBool = 0;
-  
-  int triggerValue = digitalRead(triggerPin);
-  
+
   if (sensorValue < 100){
-    
     sensorBool = 0;
-    
   }
   else{
-    
     sensorBool = 1;
-    
   }
   
   if (sensorBool == 1 && sensorOff == 0){
     if (lastBool == 0){
     
       // Rising Edge
-      
       lapCount++;
       
       sensorOff = 1;
       sensorOffTime = 0;
-      
     }
   }
   
-  if (triggerValue == 1 && triggerOff == 0){
+  int triggerValue = analogRead(triggerPin);
+  int triggerBool = 0;
+  
+  if triggerValue < 100){
+    triggerBool = 0;
+  }
+  else{
+    triggerBool = 1;
+  }
+  
+  if (triggerBool == 1 && triggerOff == 0){
     if (lastTrigger == 0){
    
      trigger();
@@ -81,20 +82,14 @@ void loop(){
   sensorOffTime++;
   
   if(sensorOffTime > 50){
-    
     sensorOff = 0;
-    
   }
   
-    triggerOffTime++;
+  triggerOffTime++;
   
-  if(triggerOffTime > 50){
-    
+  if(triggerOffTime > 50){  
     triggerOff = 0;
-    
   }
-  
-  
   
   lapTen[lapCount]++;
   
@@ -107,18 +102,15 @@ void loop(){
       
       lapSec[lapCount] = 0;
       lapMin[lapCount]++;
-    }
-    
+    } 
   }
   
   lastBool = sensorBool;
-  lastTrigger = triggerValue;
+  lastTrigger = triggerBool;
   
   delay(100);
   
   printScreen();
-  
-  
 }
 
 void printScreen(){
@@ -131,33 +123,29 @@ void printScreen(){
   String lapString = "Lap ";
   
   for(int n = 1; n < 4; n++){
-   
     
     lapString = lapString + n;
     lapString = lapString + ": ";
     lapString = lapString + lapMin[n];
+    
     if(lapSec[n] < 10){
       lapString = lapString + ":0";
     }
     else{
       lapString = lapString + ":";
     }
+    
     lapString = lapString + lapSec[n];
     lapString = lapString + ".";
     lapString = lapString + lapTen[n];
     lapString = lapString + "   Top Speed: ";
     
-    
     Serial.print(lapString);
     Serial.print(splitSpeed[n]);
     Serial.println("m/s");
     
-    lapString = "Lap ";
-    
-      
+    lapString = "Lap ";  
   }
-  
-  
 }
 
 void trigger(){
@@ -166,6 +154,4 @@ void trigger(){
  float splitTime = lapSec[lapCount] + tenths/10;
  
  splitSpeed[lapCount] = splitDist / splitTime;
- 
-  
 }
