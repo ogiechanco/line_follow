@@ -2,8 +2,8 @@
 // (C) 2016 Dave Collins
 
 int laser = 3;
-int sensor = 19;
-int triggerPin = 7;
+int sensor = 14;
+int triggerPin = 15;
 
 int lapCount = 0;
 int sensorOff = 0;
@@ -20,7 +20,7 @@ int lapTen[4];
 float splitSpeed[4] = {0, 0, 0, 0};
 
 
-int splitDist = 1;
+int splitDist = 0.5;
 
 void setup(){
   
