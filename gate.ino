@@ -19,8 +19,7 @@ int lapSec[4];
 int lapTen[4];
 float splitSpeed[4] = {0, 0, 0, 0};
 
-
-int splitDist = 0.5;
+float splitDist = 0.5;
 
 void setup(){
   
@@ -61,7 +60,7 @@ void loop(){
   int triggerValue = analogRead(triggerPin);
   int triggerBool = 0;
   
-  if triggerValue < 100){
+  if (triggerValue < 100){
     triggerBool = 0;
   }
   else{
@@ -72,9 +71,10 @@ void loop(){
     if (lastTrigger == 0){
    
      trigger();
+     
            
-      triggerOff = 1;
-      triggerOffTime = 0;
+     triggerOff = 1;
+     triggerOffTime = 0;
       
     }
   }
@@ -111,6 +111,9 @@ void loop(){
   delay(100);
   
   printScreen();
+  
+  //Serial.println(sensorBool);
+  //Serial.println(triggerBool);
 }
 
 void printScreen(){
@@ -154,4 +157,5 @@ void trigger(){
  float splitTime = lapSec[lapCount] + tenths/10;
  
  splitSpeed[lapCount] = splitDist / splitTime;
+ 
 }
