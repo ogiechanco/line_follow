@@ -24,7 +24,7 @@ int RIGHT = 16;
 
 // Define Speed Constants (constant values names are defined in CAPITALS)
 int SPEED_STRAIGHT = 100;     // Set the speed to be used on straights and turns
-int SPEED_TURN = 150;         // 0 is most power, 255 is least
+int SPEED_TURN = 150;         // 255 is the most power, 0 is least
 
 // Global Variables (variables that can change are named in lower case)
 int leftStatus;
