@@ -11,12 +11,15 @@ int sensorOffTime = 0;
 int triggerOff = 0;
 int triggerOffTime = 0;
 
+int thresholdStart = 500;
+int theresholdGate = 300;
+
 int lastBool = 0;
 int lastTrigger = 0;
 
-int lapMin[4];
-int lapSec[4];
-int lapTen[4];
+int lapMin[6];
+int lapSec[6];
+int lapTen[6];
 float splitSpeed[4] = {0, 0, 0, 0};
 
 float splitDist = 0.5;
@@ -39,7 +42,7 @@ void loop(){
   int sensorValue = analogRead(sensor);
   int sensorBool = 0;
 
-  if (sensorValue < 100){
+  if (sensorValue < thresholdStart){
     sensorBool = 0;
   }
   else{
@@ -60,7 +63,7 @@ void loop(){
   int triggerValue = analogRead(triggerPin);
   int triggerBool = 0;
   
-  if (triggerValue < 100){
+  if (triggerValue < thresholdGate){
     triggerBool = 0;
   }
   else{
